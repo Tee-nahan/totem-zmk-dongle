@@ -1,3 +1,6 @@
+config SHIELD_TOTEM_CENTRAL
+    def_bool $(shields_list_contains,totem_central)
+
 config SHIELD_TOTEM_LEFT
     def_bool $(shields_list_contains,totem_left)
 
