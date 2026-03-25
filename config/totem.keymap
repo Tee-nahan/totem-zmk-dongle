@@ -21,41 +21,221 @@
             #binding-cells = <0>;
             bindings = <&kp S &kp I &kp M &kp P &kp L &kp E &kp N3 &kp N7 &kp N1>;
         };
-        sunday2021: sunday2021 {
+
+        // 여는 쌍따옴표 (Alt + 0147)
+
+        open_dq: open_dq {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
-            bindings = <&kp S &kp U &kp N &kp D &kp A &kp Y &kp N2 &kp N0 &kp N2 &kp N1 &kp EXCL>;
+            wait-ms = <20>; // Num Lock 전환 인식 시간을 위해 살짝 늘림
+            tap-ms = <20>;
+            bindings =
+                <&macro_tap>,
+                <&kp KP_NUM>,
+                <&macro_press>,
+                <&kp LALT>,
+                <&macro_tap>,
+                <&kp KP_N0 &kp KP_N1 &kp KP_N4 &kp KP_N7>,
+                <&macro_release>,
+                <&kp LALT>,
+                <&macro_tap>,
+                <&kp KP_NUM>;
+
+            // Num Lock 토글 (끄기)
         };
-        fka0wns: fka0wns {
+
+        // 닫는 쌍따옴표 (Alt + 0148)
+
+        close_dq: close_dq {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
-            bindings = <&kp AT &kp F &kp K &kp A &kp N0 &kp W &kp N &kp S>;
+            wait-ms = <20>;
+            tap-ms = <20>;
+            bindings =
+                <&macro_tap>,
+                <&kp KP_NUM>,
+                <&macro_press>,
+                <&kp LALT>,
+                <&macro_tap>,
+                <&kp KP_N0 &kp KP_N1 &kp KP_N4 &kp KP_N8>,
+                <&macro_release>,
+                <&kp LALT>,
+                <&macro_tap>,
+                <&kp KP_NUM>;
         };
-        cjsdnjs: cjsdnjs {
+
+        // 여는 외따옴표 (Alt + 0145)
+
+        open_sq: open_sq {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
-            bindings = <&kp N2 &kp C &kp J &kp S &kp D &kp N &kp J &kp S>;
+            wait-ms = <20>;
+            tap-ms = <20>;
+            bindings =
+                <&macro_tap>,
+                <&kp KP_NUM>,
+                <&macro_press>,
+                <&kp LALT>,
+                <&macro_tap>,
+                <&kp KP_N0 &kp KP_N1 &kp KP_N4 &kp KP_N5>,
+                <&macro_release>,
+                <&kp LALT>,
+                <&macro_tap>,
+                <&kp KP_NUM>;
+        };
+
+        // 닫는 외따옴표 (Alt + 0146)
+
+        close_sq: close_sq {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <20>;
+            tap-ms = <20>;
+            bindings =
+                <&macro_tap>,
+                <&kp KP_NUM>,
+                <&macro_press>,
+                <&kp LALT>,
+                <&macro_tap>,
+                <&kp KP_N0 &kp KP_N1 &kp KP_N4 &kp KP_N6>,
+                <&macro_release>,
+                <&kp LALT>,
+                <&macro_tap>,
+                <&kp KP_NUM>;
         };
     };
 
     behaviors {
-        td_f_copy: tap_dance_f_copy {
-            compatible = "zmk,behavior-tap-dance";
-            #binding-cells = <0>;
-            tapping-term-ms = <170>;
-            bindings = <&kp F>, <&kp LC(C)>;
+        hm: homerow_mods {
+            compatible = "zmk,behavior-hold-tap";
+            label = "HOMEROW_MODS";
+            #binding-cells = <2>;
+
+            // 1. 전체 태핑 텀: 260ms (안전한 기준점)
+
+            tapping-term-ms = <260>;
+
+            // 2. Quick Tap: 0 (연타 시 컨트롤 발동 원천 차단)
+
+            quick-tap-ms = <0>;
+
+            // 3. Flavor: tap-preferred (타자 시 무조건 문자 우선)
+
+            flavor = "tap-preferred";
+
+            // 4. Require Prior Idle: 125ms (핵심 요청 사항)
+            // 직전 타자 후 0.125초 동안은 홀드 기능을 잠금 처리하여 
+            // 문장을 빠르게 칠 때 단축키가 터지는 것을 물리적으로 방지합니다.
+
+            require-prior-idle-ms = <170>;
+            bindings = <&kp>, <&kp>;
         };
-        td_q_caps: tap_dance_q_caps {
+
+        hs: homerow_shift {
+            compatible = "zmk,behavior-hold-tap";
+            label = "HOMEROW_SHIFT";
+            #binding-cells = <2>;
+            tapping-term-ms = <170>;    // 시프트는 조금 더 빨리 낚아채도록 낮춤
+            quick-tap-ms = <0>;
+            flavor = "balanced";         // 누른 채 다른 키를 치면 즉시 시프트로 인정
+            require-prior-idle-ms = <0>; // 대기 시간(Idle) 없이 즉시 반응
+            bindings = <&kp>, <&kp>;
+        };
+
+        mm_space_ralt: mod_morph_space_ralt {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&kp SPACE>, <&kp RALT>;
+
+            mods = <(MOD_RSFT)>;
+        };
+
+        mm_r_alt_f4: mod_morph_r_alt_f4 {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&kp R>, <&kp LA(F4)>;
+
+            mods = <(MOD_LALT)>;
+        };
+
+        mm_dot_qmark: mod_morph_dot_qmark {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&kp DOT>, <&kp FSLH>;
+
+            mods = <(MOD_RSFT)>;
+            keep-mods = <(MOD_RSFT)>;
+        };
+
+        td_v_copy: tap_dance_v_copy {
             compatible = "zmk,behavior-tap-dance";
             #binding-cells = <0>;
             tapping-term-ms = <210>;
-            bindings = <&kp Q>, <&kp CAPS>;
+            bindings = <&kp V>, <&kp LC(C)>;
         };
-        td_slash_ralt: tap_dance_slash_ralt {
+
+        td_h_caps: tap_dance_h_caps {
             compatible = "zmk,behavior-tap-dance";
             #binding-cells = <0>;
             tapping-term-ms = <210>;
-            bindings = <&kp FSLH>, <&kp RALT>;
+            bindings = <&kp H>, <&kp CAPS>;
+        };
+
+        td_j_ralt: tap_dance_j_ralt {
+            compatible = "zmk,behavior-tap-dance";
+            #binding-cells = <0>;
+            tapping-term-ms = <210>;
+            bindings = <&kp J>, <&kp RALT>;
+        };
+
+        td_u_layer1: td_u_layer1 {
+            compatible = "zmk,behavior-tap-dance";
+            label = "TD_U_LAYER1";
+            #binding-cells = <0>;
+            bindings = <&kp U>, <&tog 1>;
+
+            tapping-term-ms = <210>;
+        };
+
+        td_y_hanja: td_y_hanja {
+            compatible = "zmk,behavior-tap-dance";
+            label = "TD_Y_HANJA";
+            #binding-cells = <0>;
+            bindings = <&kp Y>, <&kp LANG_HANJA>;
+
+            tapping-term-ms = <210>;
+        };
+
+        td_i_layer2: td_i_layer2 {
+            compatible = "zmk,behavior-tap-dance";
+            label = "TD_I_LAYER2";
+            #binding-cells = <0>;
+            bindings = <&kp I>, <&tog 2>;
+        };
+
+        td_quoute: td_quoute {
+            compatible = "zmk,behavior-tap-dance";
+            label = "TD_QUOUTE";
+            #binding-cells = <0>;
+            bindings = <&kp SINGLE_QUOTE>, <&kp DOUBLE_QUOTES>;
+
+            tapping-term-ms = <210>;
+        };
+    };
+
+    combos {
+        compatible = "zmk,combos";
+
+        combo_xc_copy {
+            timeout-ms = <50>;
+            key-positions = <22 23>;
+            bindings = <&kp LC(C)>;
+        };
+
+        combo_cv_paste {
+            timeout-ms = <50>;
+            key-positions = <23 24>;
+            bindings = <&kp LC(V)>;
         };
     };
 
@@ -64,28 +244,28 @@
 
         base {
             bindings = <
-           &td_q_caps &kp W      &kp E      &kp R       &kp T    &kp Y      &kp U      &kp I      &kp O     &kp P
-           &kp A      &mt LALT S &mt LCTRL D &td_f_copy  &kp G    &kp H      &kp J      &kp K      &kp L     &kp ENTER
-&kp LSHIFT &kp Z      &kp X      &kp C      &kp V       &kp B    &kp N      &kp M      &kp COMMA  &kp DOT   &td_slash_ralt  &kp RSHIFT
-                      &mt LGUI ESC &kp TAB  &lt 2 ENTER        &lt 1 BSPC &kp DEL  &kp SPACE
+            &kp Q  &kp W       &kp E         &mm_r_alt_f4  &kp T          &td_y_hanja  &td_u_layer1  &kp I           &kp O          &kp P
+            &kp A  &hm LALT S  &hm LCTRL D   &hm LSHIFT F  &kp G          &td_h_caps   &td_j_ralt    &kp K           &kp L          &kp ENTER
+&kp LSHIFT  &kp Z  &kp X       &kp C         &td_v_copy    &kp B          &kp N        &kp M         &kp COMMA       &mm_dot_qmark  &mt RSHIFT FSLH  &kp RSHIFT
+                               &mt LGUI ESC  &mt LALT TAB  &lt 2 ENTER    &lt 1 BSPC   &kp DEL       &mm_space_ralt
             >;
         };
 
         layer_1 {
             bindings = <
-           &kp EXCL   &kp AT     &kp HASH   &kp DLLR    &kp PRCNT  &kp HOME   &kp PG_UP  &kp UP     &kp PG_DN &kp PSCRN
-           &kp CARET  &kp AMPS   &kp STAR   &kp LPAR    &kp RPAR   &kp END    &kp LEFT   &kp DOWN   &kp RIGHT &kp INS
-&kp LSHIFT &kp Z      &kp X      &kp C      &kp V       &kp B      &kp N      &kp M      &kp COMMA  &kp DOT   &kp FSLH        &kp RSHIFT
-                      &mt LGUI ESC &kp TAB  &lt 2 ENTER        &trans     &kp DEL    &kp SPACE
+            &kp EXCL   &kp AT    &kp HASH      &kp DLLR       &kp PRCNT           &kp HOME       &kp PG_UP  &kp UP          &kp PG_DN  &kp PSCRN
+            &kp CARET  &kp AMPS  &kp STAR      &kp LPAR       &kp RPAR            &kp END        &kp LEFT   &kp DOWN        &kp RIGHT  &kp INS
+&kp LSHIFT  &kp Z      &kp X     &kp C         &kp LESS_THAN  &kp GREATER_THAN    &kp N          &kp M      &kp COMMA       &kp DOT    &kp FSLH   &kp RSHIFT
+                                 &mt LGUI ESC  &mt LALT TAB   &lt 2 ENTER         &kp BACKSPACE  &kp DEL    &mm_space_ralt
             >;
         };
 
         layer_2 {
             bindings = <
-           &kp EXCL   &kp AT     &kp HASH   &kp LT      &kp GT     &kp UNDER  &kp N7     &kp N8     &kp N9    &kp EQUAL
-           &trans     &trans     &kp F5     &kp F2      &kp APOS   &kp MINUS  &kp N4     &kp N5     &kp N6    &kp COMMA
-&kp LSHIFT &sunday2021 &cjsdnjs &fka0wns  &simple371  &trans     &kp N0     &kp N1     &kp N2     &kp N3    &kp DOT         &kp RSHIFT
-                      &mt LGUI ESC &kp TAB  &lt 2 ENTER        &trans     &kp DEL    &kp SPACE
+            &kp LG(N1)   &kp LG(N2)  &kp LG(N3)    &kp LG(N4)    &kp LG(N5)    &kp UNDER        &kp N7   &kp N8          &kp N9  &kp EQUAL
+            &open_dq     &close_dq   &open_sq      &close_sq     &td_quoute    &kp MINUS        &kp N4   &kp N5          &kp N6  &kp COMMA
+&kp LSHIFT  &kp LC(F10)  &kp F7      &kp F5        &kp F2        &simple371    &kp N0           &kp N1   &kp N2          &kp N3  &kp DOT    &kp RSHIFT
+                                     &mt LGUI ESC  &mt LALT TAB  &kp ENTER     &lt 1 BACKSPACE  &kp DEL  &mm_space_ralt
             >;
         };
 
