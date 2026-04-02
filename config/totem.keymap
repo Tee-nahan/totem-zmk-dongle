@@ -113,7 +113,7 @@
 
             // 1. 전체 태핑 텀: 260ms (안전한 기준점)
 
-            tapping-term-ms = <200>;
+            tapping-term-ms = <190>;
 
             // 2. Quick Tap: 0 (연타 시 컨트롤 발동 원천 차단)
 
@@ -124,10 +124,10 @@
             flavor = "tap-preferred";
 
             // 4. Require Prior Idle: 125ms (핵심 요청 사항)
-            // 직전 타자 후 0.125초 동안은 홀드 기능을 잠금 처리하여 
+            // 직전 타자 후 0.125초 동안은 홀드 기능을 잠금 처리하여
             // 문장을 빠르게 칠 때 단축키가 터지는 것을 물리적으로 방지합니다.
 
-            require-prior-idle-ms = <170>;
+            require-prior-idle-ms = <190>;
             bindings = <&kp>, <&kp>;
         };
 
@@ -135,7 +135,7 @@
             compatible = "zmk,behavior-hold-tap";
             label = "HOMEROW_SHIFT";
             #binding-cells = <2>;
-            tapping-term-ms = <200>;    // 시프트는 조금 더 빨리 낚아채도록 낮춤
+            tapping-term-ms = <190>;    // 시프트는 조금 더 빨리 낚아채도록 낮춤
             quick-tap-ms = <0>;
             flavor = "balanced";         // 누른 채 다른 키를 치면 즉시 시프트로 인정
             require-prior-idle-ms = <0>; // 대기 시간(Idle) 없이 즉시 반응
@@ -167,10 +167,35 @@
             keep-mods = <(MOD_RSFT)>;
         };
 
+        mm_esc_enter: mod_morph_esc_enter {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&kp ESC>, <&kp ENTER>;
+
+            mods = <(MOD_LSFT)>;
+        };
+
+        mt_lgui_esc: mt_lgui_esc {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            tapping-term-ms = <200>;
+            quick-tap-ms = <0>;
+            flavor = "tap-preferred";
+            bindings = <&kp>, <&mm_esc_enter>;
+        };
+
+        mm_bspc_lsft: mod_morph_bspc_lsft {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&kp BSPC>, <&kp BSPC>;
+
+            mods = <(MOD_LSFT)>;
+        };
+
         mm_enter_alttab: mod_morph_enter_alttab {
             compatible = "zmk,behavior-mod-morph";
             #binding-cells = <0>;
-            bindings = <&kp ENTER>, <&kp TAB>;
+            bindings = <&mm_bspc_lsft>, <&kp TAB>;
 
             mods = <(MOD_LALT|MOD_RALT)>;
             keep-mods = <(MOD_LALT|MOD_RALT)>;
@@ -180,7 +205,7 @@
             compatible = "zmk,behavior-hold-tap";
             label = "LT_MOD_MORPH";
             #binding-cells = <2>;
-            tapping-term-ms = <200>;
+            tapping-term-ms = <170>;
             quick-tap-ms = <0>;
             flavor = "tap-preferred";
             bindings = <&mo>, <&mm_enter_alttab>;
@@ -189,7 +214,7 @@
         td_v_copy: tap_dance_v_copy {
             compatible = "zmk,behavior-tap-dance";
             #binding-cells = <0>;
-            tapping-term-ms = <210>;
+            tapping-term-ms = <240>;
             bindings = <&kp V>, <&kp LC(C)>;
         };
 
@@ -259,14 +284,6 @@
             tapping-term-ms = <190>;
         };
 
-        mm_lt1_bspc: mod_morph_lt1_bspc {
-            compatible = "zmk,behavior-mod-morph";
-            #binding-cells = <0>;
-            bindings = <&lt 1 BSPC>, <&kp BSPC>;
-
-            mods = <(MOD_RSFT)>;
-        };
-
 
         mm_space_shift: mod_morph_space_shift {
             compatible = "zmk,behavior-mod-morph";
@@ -282,6 +299,14 @@
             bindings = <&kp RALT>, <&kp LS(DEL)>;
 
             mods = <(MOD_RSFT)>;
+        };
+
+        mm_lt_bspc_lsft: mm_lt_bspc_lsft {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&lt_mm 2 0>, <&mm_bspc_lsft>;
+
+            mods = <(MOD_LSFT)>;
         };
     };
 
@@ -309,7 +334,7 @@
         &kp Q  &kp W       &kp E         &mm_r_alt_f4  &kp T           &td_y_hanja  &kp U         &kp I            &kp O          &kp P
         &kp A  &hm LALT S  &hm LCTRL D   &hm LSHIFT F  &kp G           &td_h_caps   &td_j_ralt    &kp K            &kp L          &kp SEMI
 &tog 2  &kp Z  &kp X       &kp C         &td_v_copy    &kp B           &kp N        &kp M         &kp COMMA        &mm_dot_qmark  &mt RSHIFT FSLH    &tog 1
-                           &mt LGUI ESC  &lt_mm 2 0    &mt LALT TAB    &mm_ralt_perm_del  &mm_lt1_bspc  &mm_space_shift
+                           &mt_lgui_esc LGUI 0  &mm_lt_bspc_lsft    &mt LALT TAB    &mm_ralt_perm_del  &lt 1 ENTER  &mm_space_shift
             >;
         };
 
@@ -318,7 +343,7 @@
             &kp EXCL   &kp AT    &kp HASH      &kp DLLR       &kp PRCNT           &kp HOME  &kp PG_UP      &kp UP           &kp PG_DN  &kp PSCRN
             &kp CARET  &kp AMPS  &kp STAR      &kp LPAR       &kp RPAR            &kp END   &kp LEFT       &kp DOWN         &kp RIGHT  &kp INS
 &to 2       &kp Z      &kp X     &kp C         &kp LESS_THAN  &kp GREATER_THAN    &kp N     &kp M          &kp COMMA        &kp DOT    &kp FSLH   &tog 1
-                                 &mt LGUI ESC  &lt 2 ENTER    &mt LALT TAB        &kp DEL   &kp BACKSPACE  &mm_space_shift
+                                 &mt_lgui_esc LGUI 0  &mm_lt_bspc_lsft    &mt LALT TAB        &kp DEL   &kp ENTER      &mm_space_shift
             >;
         };
 
@@ -327,7 +352,7 @@
         &kp LG(N1)   &kp LG(N2)  &kp LG(N3)    &kp LG(N4)  &kp LG(N5)      &kp UNDER  &kp N7           &kp N8           &kp N9  &kp EQUAL
         &open_dq     &close_dq   &open_sq      &close_sq   &td_quoute      &kp MINUS  &kp N4           &kp N5           &kp N6  &kp COMMA
 &tog 2  &kp LC(F10)  &kp F7      &kp F5        &kp F2      &simple371      &kp N0     &kp N1           &kp N2           &kp N3  &kp DOT    &to 1
-                                 &mt LGUI ESC  &kp ENTER   &mt LALT TAB    &kp DEL    &lt 1 BACKSPACE  &mm_space_shift
+                                 &mt_lgui_esc LGUI 0  &mm_bspc_lsft  &mt LALT TAB    &kp DEL    &lt 1 ENTER  &mm_space_shift
             >;
         };
 
