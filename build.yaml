@@ -26,7 +26,7 @@ include:
     shield: totem_right
   # Dongle (nice!nano v2 acts as central/USB host)
   - board: nice_nano//zmk
-    shield: totem_central dongle_display
+    shield: dongle_display totem_central
     snippet: studio-rpc-usb-uart
     artifact-name: totem_central
   # Settings reset firmware (for dongle)
