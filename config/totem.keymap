@@ -324,6 +324,24 @@
             key-positions = <23 24>;
             bindings = <&kp LC(V)>;
         };
+
+        combo_kl_ralt {
+            timeout-ms = <50>;
+            key-positions = <17 18>;
+            bindings = <&kp RALT>;
+        };
+
+        combo_mcomma_excl {
+            timeout-ms = <50>;
+            key-positions = <27 28>;
+            bindings = <&kp EXCL>;
+        };
+
+        combo_commadot_qmark {
+            timeout-ms = <50>;
+            key-positions = <28 29>;
+            bindings = <&kp QMARK>;
+        };
     };
 
     keymap {
