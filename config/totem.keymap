@@ -349,10 +349,10 @@
             bindings = <&kp LC(X)>;
         };
 
-        combo_xv_cut {
+        combo_xv_enter {
             timeout-ms = <50>;
             key-positions = <22 24>;
-            bindings = <&kp LC(X)>;
+            bindings = <&kp ENTER>;
         };
 
         combo_vb_enter {
@@ -361,10 +361,16 @@
             bindings = <&kp ENTER>;
         };
 
-        combo_mdot_tilde {
+        combo_nm_tilde {
+            timeout-ms = <50>;
+            key-positions = <26 27>;
+            bindings = <&kp TILDE>;
+        };
+
+        combo_mdot_del {
             timeout-ms = <50>;
             key-positions = <27 29>;
-            bindings = <&kp TILDE>;
+            bindings = <&kp DEL>;
         };
     };
 
