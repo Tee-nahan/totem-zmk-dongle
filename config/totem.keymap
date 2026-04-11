@@ -361,9 +361,9 @@
             bindings = <&kp ENTER>;
         };
 
-        combo_nm_tilde {
+        combo_mdot_tilde {
             timeout-ms = <50>;
-            key-positions = <26 27>;
+            key-positions = <27 29>;
             bindings = <&kp TILDE>;
         };
     };
