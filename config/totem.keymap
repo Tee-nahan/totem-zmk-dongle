@@ -13,6 +13,7 @@
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/bt.h>
 #include <dt-bindings/zmk/keys.h>
+#include <dt-bindings/zmk/mouse.h>
 
 / {
     macros {
@@ -390,7 +391,7 @@
             bindings = <
             &kp EXCL   &kp AT    &kp HASH      &kp DLLR       &kp PRCNT           &kp HOME  &kp PG_UP      &kp UP           &kp PG_DN  &kp PSCRN
             &kp CARET  &kp AMPS  &kp STAR      &kp LPAR       &kp RPAR            &kp END   &kp LEFT       &kp DOWN         &kp RIGHT  &kp INS
-&to 2       &kp Z      &kp X     &kp C         &kp LESS_THAN  &kp GREATER_THAN    &kp N     &kp M          &kp COMMA        &kp DOT    &kp FSLH   &tog 1
+&to 2       &kp Z      &kp X     &kp C         &kp LESS_THAN  &kp GREATER_THAN    &mkp LCLK         &kp C_AC_BACK    &kp C_AC_FORWARD &kp DOT    &kp FSLH   &tog 1
                                  &mt_lgui_esc LGUI 0  &mm_lt_bspc_lsft    &mt LALT TAB        &kp DEL   &kp ENTER      &mm_space_shift
             >;
         };
@@ -398,7 +399,7 @@
         layer_2 {
             bindings = <
         &kp LG(N1)   &kp LG(N2)  &kp LG(N3)    &kp LG(N4)  &kp LG(N5)      &kp UNDER  &kp N7           &kp N8           &kp N9  &kp EQUAL
-        &open_dq     &close_dq   &open_sq      &close_sq   &td_quoute      &kp MINUS  &kp N4           &kp N5           &kp N6  &kp COMMA
+        &open_dq     &close_dq   &open_sq      &close_sq   &td_quoute      &kp MINUS  &kp N4           &kp N5           &kp N6  &kp PLUS
 &tog 2  &kp LC(F10)  &kp F7      &kp F5        &kp F2      &simple371      &kp N0     &kp N1           &kp N2           &kp N3  &kp DOT    &to 1
                                  &mt_lgui_esc LGUI 0  &mm_bspc_lsft  &mt LALT TAB    &kp DEL    &lt 1 ENTER  &mm_space_shift
             >;
