@@ -212,14 +212,7 @@
             bindings = <&mo>, <&mm_enter_alttab>;
         };
 
-        td_v_copy: tap_dance_v_copy {
-            compatible = "zmk,behavior-tap-dance";
-            #binding-cells = <0>;
-            tapping-term-ms = <240>;
-            bindings = <&kp V>, <&kp LC(C)>;
-        };
-
-        td_h_caps: tap_dance_h_caps {
+td_h_caps: tap_dance_h_caps {
             compatible = "zmk,behavior-tap-dance";
             #binding-cells = <0>;
             tapping-term-ms = <210>;
@@ -309,6 +302,14 @@
 
             mods = <(MOD_LSFT)>;
         };
+
+        mm_alt_v_as_s: mm_alt_v_as_s {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&kp V>, <&kp S>;
+            mods = <(MOD_LALT)>;
+            keep-mods = <(MOD_LALT)>;
+        };
     };
 
     combos {
@@ -382,7 +383,7 @@
             bindings = <
         &kp Q  &kp W       &kp E         &mm_r_alt_f4  &kp T           &td_y_hanja  &kp U         &kp I            &kp O          &kp P
         &kp A  &hm LALT S  &hm LCTRL D   &hm LSHIFT F  &kp G           &td_h_caps   &td_j_ralt    &kp K            &kp L          &kp SEMI
-&tog 2  &kp Z  &kp X       &kp C         &td_v_copy    &kp B           &kp N        &kp M         &kp COMMA        &mm_dot_qmark  &mt RSHIFT FSLH    &tog 1
+&tog 2  &kp Z  &kp X       &kp C         &mm_alt_v_as_s  &kp B           &kp N        &kp M         &kp COMMA        &mm_dot_qmark  &mt RSHIFT FSLH    &tog 1
                            &mt_lgui_esc LGUI 0  &mm_lt_bspc_lsft    &mt LALT TAB    &mm_ralt_perm_del  &lt 1 ENTER  &mm_space_shift
             >;
         };
