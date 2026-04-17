@@ -6,6 +6,8 @@ manifest:
       url-base: https://github.com/englmaxi
     - name: tee-nahan
       url-base: https://github.com/Tee-nahan
+    - name: badjeff
+      url-base: https://github.com/badjeff
   projects:
     - name: zmk
       remote: tee-nahan
@@ -13,6 +15,9 @@ manifest:
       import: app/west.yml
     - name: zmk-dongle-display
       remote: tee-nahan
+      revision: main
+    - name: zmk-pmw3610-driver
+      remote: badjeff
       revision: main
   self:
     path: config
