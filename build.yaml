@@ -24,6 +24,10 @@ include:
     shield: totem_left
   - board: xiao_ble//zmk
     shield: totem_right
+  # AdeptBLE trackball (via Bluetooth to dongle, split peripheral)
+  - board: seeeduino_xiao_ble
+    shield: AdeptBLE
+    artifact-name: adept_ble_peripheral
   # Dongle (nice!nano v2 acts as central/USB host)
   - board: nice_nano//zmk
     shield: dongle_display totem_central
