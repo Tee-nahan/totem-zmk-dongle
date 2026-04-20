@@ -374,6 +374,18 @@ td_h_caps: tap_dance_h_caps {
             key-positions = <27 29>;
             bindings = <&kp DEL>;
         };
+
+        combo_we_back {
+            timeout-ms = <50>;
+            key-positions = <1 2>;
+            bindings = <&kp C_AC_BACK>;
+        };
+
+        combo_er_forward {
+            timeout-ms = <50>;
+            key-positions = <2 3>;
+            bindings = <&kp C_AC_FORWARD>;
+        };
     };
 
     keymap {
