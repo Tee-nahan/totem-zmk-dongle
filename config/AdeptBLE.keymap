@@ -2,29 +2,23 @@
 #include <dt-bindings/zmk/bt.h>
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/pointing.h>
-#include <dt-bindings/zmk/outputs.h>
-
-#define DEFAULT 0
-#define SCRLM 1
-#define SCRLH 2
-#define SNIPE 3
 
 / {
   combos {
     compatible = "zmk,combos";
     combo_rclk {
       timeout-ms = <75>;
-      key-positions = <2 3>;
+      key-positions = <40 41>;
       bindings = <&mkp RCLK>;
     };
     combo_bootloader {
       timeout-ms = <75>;
-      key-positions = <0 3>;
+      key-positions = <38 41>;
       bindings = <&bootloader>;
     };
   };
   behaviors {
-    lth: layer-tap-hold-while-undecided {
+    lth: layer_tap_hold {
       compatible = "zmk,behavior-hold-tap";
       #binding-cells = <2>;
       flavor = "hold-preferred";
@@ -32,47 +26,100 @@
       tapping-term-ms = <150>;
       bindings = <&mo>, <&mkp>;
     };
-    td_btn4: td_btn4 {
+    tbl_btn4: tbl_btn4 {
       compatible = "zmk,behavior-tap-dance";
       #binding-cells = <0>;
       tapping-term-ms = <250>;
-      bindings = <&kp LC(V)>, <&tog SNIPE>;
+      bindings = <&kp LC(V)>, <&tog 6>;
     };
-    td_rclk: td_rclk {
+    tbl_rclk: tbl_rclk {
       compatible = "zmk,behavior-tap-dance";
       #binding-cells = <0>;
       tapping-term-ms = <250>;
-      bindings = <&lth SCRLM RCLK>, <&tog SCRLH>;
+      bindings = <&lth 4 RCLK>, <&tog 5>;
     };
   };
   keymap {
     compatible = "zmk,keymap";
+
+    // Layer 0: Default
     default_layer {
       display-name = "Default";
       bindings = <
-        &mkp MB4   &mkp MB5   &kp LC(C)   &td_btn4
-        &mkp LCLK                          &td_rclk
+        // Totem positions 0-37 (not physically present on AdeptBLE)
+        &none &none &none &none &none &none &none &none &none &none
+        &none &none &none &none &none &none &none &none &none &none
+        &none &none &none &none &none &none &none &none &none &none &none &none
+                    &none &none &none &none &none &none
+        // AdeptBLE buttons (positions 38-43)
+        &mkp MB4   &mkp MB5   &kp LC(C)   &tbl_btn4
+        &mkp LCLK                          &tbl_rclk
       >;
     };
-    scroll_tap_layer {
-      display-name = "Scroll-Momentary";
+
+    // Layer 1 (totem layer_1)
+    layer_1 {
       bindings = <
-        &trans &trans &trans &trans
-        &trans               &trans
+        &none &none &none &none &none &none &none &none &none &none
+        &none &none &none &none &none &none &none &none &none &none
+        &none &none &none &none &none &none &none &none &none &none &none &none
+                    &none &none &none &none &none &none
+        &trans &trans &trans &trans &trans &trans
       >;
     };
-    scroll_hold_layer {
-      display-name = "Scroll-Keep";
+
+    // Layer 2 (totem layer_2)
+    layer_2 {
       bindings = <
-        &trans &trans &trans &trans
-        &trans               &trans
+        &none &none &none &none &none &none &none &none &none &none
+        &none &none &none &none &none &none &none &none &none &none
+        &none &none &none &none &none &none &none &none &none &none &none &none
+                    &none &none &none &none &none &none
+        &trans &trans &trans &trans &trans &trans
       >;
     };
-    snipe_layer {
-      display-name = "Snipe";
+
+    // Layer 3 (totem device)
+    layer_3 {
       bindings = <
-        &trans &trans &trans &trans
-        &trans               &trans
+        &none &none &none &none &none &none &none &none &none &none
+        &none &none &none &none &none &none &none &none &none &none
+        &none &none &none &none &none &none &none &none &none &none &none &none
+                    &none &none &none &none &none &none
+        &none &none &none &none &none &none
+      >;
+    };
+
+    // Layer 4: Trackball scroll (momentary)
+    tbl_scroll_m {
+      bindings = <
+        &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+        &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+        &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+                      &trans &trans &trans &trans &trans &trans
+        &trans &trans &trans &trans &trans &trans
+      >;
+    };
+
+    // Layer 5: Trackball scroll (toggle)
+    tbl_scroll_h {
+      bindings = <
+        &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+        &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+        &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+                      &trans &trans &trans &trans &trans &trans
+        &trans &trans &trans &trans &trans &trans
+      >;
+    };
+
+    // Layer 6: Trackball snipe
+    tbl_snipe {
+      bindings = <
+        &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+        &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+        &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+                      &trans &trans &trans &trans &trans &trans
+        &trans &trans &trans &trans &trans &trans
       >;
     };
   };
