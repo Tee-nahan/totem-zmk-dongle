@@ -15,7 +15,7 @@ manifest:
       import: app/west.yml
     - name: zmk-dongle-display
       remote: tee-nahan
-      revision: main
+      revision: 94d3607529c5896b0f7e6099ed32fb72155f0298
     - name: zmk-pmw3610-driver
       remote: badjeff
       revision: main
