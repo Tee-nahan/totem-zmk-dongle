@@ -14,27 +14,16 @@ config ZMK_KEYBOARD_NAME
 config ZMK_SPLIT_ROLE_CENTRAL
     default y
 
-# For a unibody, this would be 1. If you have left and right halves, set it to 2.
+# 3 peripherals: totem_left + totem_right + AdeptBLE
 config ZMK_SPLIT_BLE_CENTRAL_PERIPHERALS
-    default 2
+    default 3
 
-# Set this to ZMK_SPLIT_BLE_CENTRAL_PERIPHERALS + your desired number of BT profiles (default is 5)
+# 3 peripherals + 5 BLE host profiles
 config BT_MAX_CONN
-    default 7
+    default 8
 
-# Set this to the same number as BT_MAX_CONN
 config BT_MAX_PAIRED
-    default 7
-
-if ZMK_DISPLAY
-
-config I2C
-    default y
-
-config SSD1306
-    default y
-
-endif # ZMK_DISPLAY
+    default 8
 
 endif # SHIELD_TOTEM_CENTRAL
 
